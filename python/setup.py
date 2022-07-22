@@ -109,6 +109,8 @@ class BuildExt(build_ext):
         # Make sure not to fail the check the second time.
         if not self._checked_lib:
             self._checked_lib = True
+            if os.getenv('CONDA_PREFIX'):
+                self.library_dirs.append(os.getenv("CONDA_PREFIX") + "/lib")
             if os.getenv('OSKAR_LIB_DIR'):
                 self.library_dirs.append(os.getenv('OSKAR_LIB_DIR'))
             if platform.system() == 'Windows':
@@ -136,6 +138,8 @@ class BuildExt(build_ext):
         if not self._checked_inc:
             from numpy import get_include
             self._checked_inc = True
+            if os.getenv('CONDA_PREFIX'):
+                self.include_dirs.append(os.getenv("CONDA_PREFIX") + "/include")
             if os.getenv('OSKAR_INC_DIR'):
                 self.include_dirs.append(os.getenv('OSKAR_INC_DIR'))
             if platform.system() == 'Windows':
